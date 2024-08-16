@@ -1,0 +1,12 @@
+.layout {
+    display: flex;
+    flex-direction: row;
+    height: calc(100vh - 20px);
+    margin: 10px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: scroll;
+}
