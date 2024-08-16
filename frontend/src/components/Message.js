@@ -14,7 +14,7 @@ const Message = ({ type, children }) => {
                 break;
             case 'error':
                 setMsgColor('#ff4545');
-                setMsgBackgroundColor('#ff45456e');
+                setMsgBackgroundColor('#ff45453b');
                 break;
             case 'warning':
                 setMsgColor('#ffc107');
