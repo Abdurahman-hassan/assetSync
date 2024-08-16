@@ -1,4 +1,18 @@
-/**
- * TODO: Implement loading spinner component
- * TODO: The compontent should return the spinner based on color and size props
- */
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Puff } from 'react-loader-spinner';
+
+const LoadingSpinner = ({ color = '#eeeeee', size = 50 }) => {
+    return (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <Puff color={color} height={size} width={size} />
+        </div>
+    );
+};
+
+LoadingSpinner.propTypes = {
+    color: PropTypes.string,
+    size: PropTypes.number,
+};
+
+export default LoadingSpinner;
