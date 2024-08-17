@@ -1,6 +1,3 @@
-/**
- * TODO: Implement register page
- */
 import { useState } from "react";
 import backgroundLogo from "../assets/backgroundLogo.svg";
 import "../styles/account.css"
