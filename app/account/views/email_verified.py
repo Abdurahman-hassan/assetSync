@@ -4,7 +4,7 @@ from app.account.serializers import CodeSerializer
 from rest_framework.response import Response
 from app.utils.permissions import EmailNotVerified
 from app.account.models import VerificationCode
-from app.account.tasks import send_verification_email
+from app.account.tasks import send_verification_email, send_confirmation_activation_email
 from app.user.models import User
 from drf_spectacular.utils import extend_schema
 
@@ -67,5 +67,5 @@ class EmailCodeVerify(APIView):
         user.email_verified = True
         user.save()
         model.delete()
-
+        send_confirmation_activation_email.delay(self.request.user.email)
         return Response(status=status.HTTP_204_NO_CONTENT)
