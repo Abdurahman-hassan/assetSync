@@ -1,5 +1,4 @@
 from django.db import models
-from user.models import User
 
 
 class Device(models.Model):
@@ -24,6 +23,5 @@ class Device(models.Model):
     status = models.CharField(max_length=50, choices=[('active', 'Active'), ('inactive', 'Inactive')])
     date_added = models.DateTimeField(auto_now_add=True)
 
-    
     class Meta:
         ordering = ['date_added']
