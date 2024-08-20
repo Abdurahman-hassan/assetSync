@@ -34,6 +34,23 @@ def send_verification_email(email: str):
 
 
 @shared_task
+def send_confirmation_activation_email(email: str):
+    code_obj, user = get_verification_code(email)
+    if code_obj and user:
+        subject = f"{app.name} - Confirmation Activation"
+        context = {
+            "name": user.name,
+            "app_name": app.name,
+            "code": code_obj.code,
+        }
+        html_message = render_to_string(
+            "email/send_confirmation_activation.html", context=context
+        )
+        return send_email(subject, [email], html_message)
+    return False
+
+
+@shared_task
 def send_code_reset_password(email: str):
     code_obj, user = get_verification_code(email)
     if code_obj and user:
