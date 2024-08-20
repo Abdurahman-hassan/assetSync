@@ -1,0 +1,198 @@
+/* Body Styles */
+
+body {
+    background-color: var(--dark-color);
+}
+
+/* Soligan Section */
+.soligan {
+    position: absolute;
+    left: 150px;
+    bottom: 150px;
+}
+
+.soligan p {
+    color: #eeeeee50;
+    text-align: left;
+    font-size: 30px;
+}
+
+/* Register Container */
+.register-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+/* Signup/Signin Form Styles */
+.signup, .signin {
+    background-color: #393e464e;
+    padding: 40px;
+    border-radius: 30px;
+    width: 400px;
+    border: 2px solid #393e464e;
+    position: absolute;
+    right: 150px;
+}
+
+.signin p, .signup p {
+    font-size: 11px;
+    text-align: center;
+}
+
+.signin a, .signup a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+
+.register-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--light-color);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    color: var(--light-color);
+}
+
+/* Form Labels */
+label {
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+/* Input Field Styles */
+.input , .selected {
+    padding: 12px;
+    margin-bottom: 20px;
+    height: 40px;
+    border: 2px solid #393e464e;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #393e464e;
+    color: var(--light-color);
+    border: none;
+}
+
+.input:focus {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+/* Password Container */
+.password-container {
+    position: relative;
+}
+
+/* Toggle Password Button below the input */
+.toggle-password {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    margin-top: 6px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    text-align: left;
+}
+
+/* Dropdown (select) Styles */
+select.input {
+    outline: none;
+    appearance: none;
+    color: #d1d5db;
+    padding-right: 24px;
+}
+
+select.input:focus {
+    box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+/* Error Styles */
+.error {
+    color: #f87171;
+    align-self: baseline;
+    font-size: 12px;
+    margin-top: -16px;
+    margin-bottom: 3px;
+}
+
+.error-input {
+    border-color: #f87171;
+    box-shadow: 0 0 0 0.2px #f87171;
+}
+
+/* Button Styles */
+.submit {
+    padding: 12px;
+    margin: 3px;
+    background-color: var(--primary-color);
+    color: var(--dark-color);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.submit:hover {
+    background-color: #32e0c391;
+}
+
+.custom-dropdown {
+    position: relative;
+    width: 100%; 
+}
+
+.selected:focus {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+.dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--light-dark-color);
+    border: 2px solid #393e464e;
+    border-radius: 6px;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 999;
+}
+
+.dropdown-list li {
+    padding: 12px;
+    background-color: #393e464e;
+    color: var(--light-color);
+    cursor: pointer;
+    list-style-type: none;
+}
+
+.dropdown-list li:hover {
+    background-color: var(--primary-color);
+    color: var(--dark-color);
+}
+
+/* Scrollbar styling */
+.dropdown-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dropdown-list::-webkit-scrollbar-track {
+    background: #393e464e;
+}
+
+.dropdown-list::-webkit-scrollbar-thumb {
+    background-color: #32e0c391;
+    border-radius: 10px;
+}
+
+.dropdown-list::-webkit-scrollbar-thumb:hover {
+    background-color: var(--primary-color);
+}
