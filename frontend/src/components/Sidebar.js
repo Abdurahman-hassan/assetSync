@@ -23,7 +23,7 @@ const Sidebar = () => {
         className={`sidebar-item ${activeItem === 'home' ? 'active' : ''}`} 
         onClick={() => setActiveItem('home')}
       >
-          <Link to="/Home">
+          <Link to="/home">
           <FaHome className="icon" /> {collapsed ? '' : <span className="sidebar-text">Home</span>}
         </Link>
       </div>
