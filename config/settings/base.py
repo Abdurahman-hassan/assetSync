@@ -204,7 +204,7 @@ REST_FRAMEWORK["DEFAULT_METADATA_CLASS"] = None
 #     "rest_framework.renderers.JSONRenderer"]
 
 SIMPLE_JWT = {
-    "AUTH_HEADER_TYPES": ("bearer",),
+    "AUTH_HEADER_TYPES": ("Bearer",),
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
 }
