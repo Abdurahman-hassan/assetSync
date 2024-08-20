@@ -14,8 +14,6 @@ from app.account.throttling import AnonThrottlingResetPassword
 from app.utils.permissions import NotAuthenticatedPermission
 from app.user.models import User
 
-logger = logging.Logger(__name__).get()
-
 
 class SendCodeRestPassword(APIView):
     """
@@ -39,7 +37,6 @@ class SendCodeRestPassword(APIView):
         """
         serializer = EmailSerializer(data=self.request.data)
         serializer.is_valid(raise_exception=True)
-        logger.info("Reset password code sent to the user's email.")
         email = serializer.data.get("email")
         try:
             user = User.objects.get(email=email)
