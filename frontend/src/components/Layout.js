@@ -1,5 +1,15 @@
-/**
- * TODO: Implement Layout component
- * TODO: The layout contains a header, a sidebar and a main section
- * TODO: The sidebar will be fixed and the header will be scrollable with the sidebar
- */
+import Sidebar from "./Sidebar";
+import "../styles/Layout.css";
+
+const Layout = ({children}) => {
+    return (
+        <div className="layout">
+            <Sidebar/>
+            <main className="main-content">
+                {children}
+            </main>
+        </div>
+    )
+}
+
+export default Layout;
