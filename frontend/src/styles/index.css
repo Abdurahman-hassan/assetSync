@@ -2,10 +2,29 @@
 
 :root {
   --primary-color: #32e0c4;
+  --secondary-color: #32e0c336;
   --dark-color: #222831;
   --light-dark-color: #393e46;
   --light-color: #eeeeee;
   --white-color: #ffffff;
+}
+
+/* Custom Scrollbar for Webkit-based browsers */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--light-dark-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary-color);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
 }
 
 * {
@@ -22,6 +41,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--dark-color);
+  color: var(--light-color);
 }
 
 code {
