@@ -1,4 +1,6 @@
+from octo import logging
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from app.account.serializers import (
@@ -18,8 +20,8 @@ class SendCodeRestPassword(APIView):
     API view to send a reset password code via email to the user.
     """
 
-    throttle_classes = [AnonThrottlingResetPassword]
-    permission_classes = [NotAuthenticatedPermission]
+    # throttle_classes = [AnonThrottlingResetPassword]
+    permission_classes = [AllowAny]
 
     @extend_schema(
         request=EmailSerializer,
@@ -49,8 +51,8 @@ class VerifyCodeResetPassowrd(APIView):
     API view to verify a reset password code sent to the user's email.
     """
 
-    permission_classes = [NotAuthenticatedPermission]
-    throttle_classes = [AnonThrottlingResetPassword]
+    permission_classes = [AllowAny]
+    # throttle_classes = [AnonThrottlingResetPassword]
 
     @extend_schema(
         operation_id="Verify Reset Password Code",
@@ -72,8 +74,8 @@ class ResetPassowrd(APIView):
     API view to reset the user's password.
     """
 
-    permission_classes = [NotAuthenticatedPermission]
-    throttle_classes = [AnonThrottlingResetPassword]
+    permission_classes = [AllowAny]
+    # throttle_classes = [AnonThrottlingResetPassword]
 
     @extend_schema(
         request=ResetPasswordSerializer,

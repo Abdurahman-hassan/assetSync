@@ -65,6 +65,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "app.user",
     "app.account",
+    "app.Device",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -203,7 +204,7 @@ REST_FRAMEWORK["DEFAULT_METADATA_CLASS"] = None
 #     "rest_framework.renderers.JSONRenderer"]
 
 SIMPLE_JWT = {
-    "AUTH_HEADER_TYPES": ("bearer",),
+    "AUTH_HEADER_TYPES": ("Bearer",),
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
 }

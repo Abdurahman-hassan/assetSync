@@ -14,6 +14,8 @@ services:
     build:
       context: .
       dockerfile: ./compose/django/Dockerfile
+#    environment:
+#      UV_HTTP_TIMEOUT: 120
     image: django_app
     container_name: django_dev
     networks:
