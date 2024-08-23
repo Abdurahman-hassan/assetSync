@@ -37,6 +37,7 @@ const Message = ({ type, children }) => {
             margin: '10px 0', 
             border: '1px solid',
             borderColor: msgColor,
+            fontSize: '12px',
             textAlign: 'center',
             }}>
             {children}
