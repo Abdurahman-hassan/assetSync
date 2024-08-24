@@ -11,6 +11,16 @@ class IsSuperUser(BasePermission):
         return request.user.is_superuser
 
 
+class IsOwnerOrAdmin(BasePermission):
+    """
+    Custom permission to only allow owners of an object or admins to view/edit it.
+    """
+
+    def has_object_permission(self, request, view, obj):
+        # Write permissions are only allowed to the owner or to staff/superusers
+        return obj.user == request.user or request.user.is_staff or request.user.is_superuser
+
+
 class UserVerified(BasePermission):
     def has_permission(self, request, view):
         if request.user.email_verified and request.user.is_staff:
@@ -31,6 +41,10 @@ class ReadOrAdmin(BasePermission):
             if request.user.is_authenticated and request.user.is_superuser:
                 return True
         return False
+
+
+
+
 
 
 class LoginPermission(BasePermission):

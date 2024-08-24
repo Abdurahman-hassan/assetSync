@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class AssetsConfig(AppConfig):
-    name = "app.Notification"
+class DeviceConfig(AppConfig):
+    name = "app.notification"

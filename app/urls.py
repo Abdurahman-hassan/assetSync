@@ -6,6 +6,11 @@ from drf_spectacular.utils import extend_schema
 
 urlpatterns = [
     path("", include("app.account.urls")),
+    path("", include("app.device.urls")),
+    path("", include("app.notification.urls")),
+    path("", include("app.asset_request.urls")),
+    path("", include("app.assignment.urls")),
+
 ]
 
 

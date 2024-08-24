@@ -10,18 +10,14 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('account', '0001_initial'),
+        ('asset_request', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='verificationcode',
+            model_name='assetrequest',
             name='user',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='code_verified', to=settings.AUTH_USER_MODEL),
-        ),
-        migrations.AddIndex(
-            model_name='verificationcode',
-            index=models.Index(fields=['user'], name='account_ver_user_id_add938_idx'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
         ),
     ]

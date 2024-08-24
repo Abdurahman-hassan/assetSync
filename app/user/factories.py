@@ -15,6 +15,9 @@ class UserFactory(factory.Factory):
     username = Faker().user_name()[0:10]
     password = make_password(password)
     email_verified = True
+    department = 'engineering'
+    team = 'backend'
+    role = 'backend_developer'
 
 
 class AdminFactory(factory.Factory):
@@ -28,3 +31,6 @@ class AdminFactory(factory.Factory):
     is_staff = True
     is_superuser = True
     email_verified = True
+    department = 'engineering'
+    team = 'backend'
+    role = 'backend_developer'

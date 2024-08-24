@@ -1,9 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
 from django.utils.translation import gettext_lazy as _
-
-from .forms import UserAdminChangeForm
-from .forms import UserAdminCreationForm
+from .forms import UserAdminChangeForm, UserAdminCreationForm
 from .models import User
 
 
@@ -19,6 +17,9 @@ class UserAdmin(auth_admin.UserAdmin):
                 "fields": (
                     "name",
                     "avatar",
+                    "department",
+                    "team",
+                    "role",
                 )
             },
         ),
@@ -36,7 +37,7 @@ class UserAdmin(auth_admin.UserAdmin):
         ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
-    list_display = ["email", "username", "name", "is_superuser"]
+    list_display = ["email", "username", "name", "department", "team", "role", "is_superuser"]
     search_fields = ["name", "email", "username"]
     ordering = ["id", "email", "username"]
     add_fieldsets = (

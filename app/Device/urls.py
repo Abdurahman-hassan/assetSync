@@ -1,9 +1,8 @@
 from django.urls import path
-from django.conf import settings
-from . import views
+from .views import DeviceListView, DeviceDetailView, DeviceHardwareRecevier
 
 urlpatterns = [
-    # =======
-    path('api/devices/', views.DeviceList.as_view(), name='device-list'),
-    path('api/devices/<int:pk>/', views.DeviceDetail.as_view(), name='device-detail'),
+    path('devices/', DeviceListView.as_view(), name='device_list'),
+    path('devices/<uuid:pk>/', DeviceDetailView.as_view(), name='device_detail'),
+    path('devices/hardware/recevie', DeviceHardwareRecevier.as_view(), name='device_hardware_data'),
 ]
