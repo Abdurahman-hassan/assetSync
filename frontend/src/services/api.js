@@ -29,7 +29,7 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if ((error.response.status === 401 || error.response.status === 403) && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
         const refreshToken = localStorage.getItem('refreshToken');
@@ -86,6 +86,26 @@ export const logout = async () => {
 
 export const verifyToken = async (token) => {
   return api.post('auth/jwt/token/verify/', { token });
+};
+
+export const getUserProfile = async () => {
+  return api.get('user/me/');
+};
+
+export const updateUserProfile = async (profileData) => {
+  return api.put('user/update/', profileData);
+};
+
+export const sendResetPasswordCode = async (email) => {
+  return api.post('user/reset_password/code/send/', { email });
+};
+
+export const verifyResetPasswordCode = async (email, code) => {
+  return api.post('user/reset_password/code/', { email, code });
+};
+
+export const resetPassword = async (key, email, password, password2) => {
+  return api.post('user/reset_password/', { key, email, password, password2 });
 };
 
 export default api;

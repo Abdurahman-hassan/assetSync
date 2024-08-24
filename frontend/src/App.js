@@ -1,9 +1,3 @@
-/**
-    * TODO: Add the routes to the app
-    * TODO: Routing with User Type Content
-    * TODO: Use Private Route to restrict access to the routes
-  */
-
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './styles/App.css';
@@ -15,6 +9,7 @@ import SuccessfulRegister from './pages/SuccessfulRegister';
 import Profile from './pages/Profile';
 import Devices from './pages/Devices';
 import PrivateRoute from './routes/PrivateRoute';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
   return (
@@ -29,6 +24,7 @@ function App() {
             <Route path="/" element={<Layout><Devices /></Layout>} />
             <Route path="/devices" element={<Layout><Devices /></Layout>} />
             <Route path="/profile" element={<Layout><Profile /></Layout>} />
+            <Route path="/profile/reset-password" element={<ResetPassword />} />
             {/* Add more protected routes here */}
           </Route>
         </Routes>
