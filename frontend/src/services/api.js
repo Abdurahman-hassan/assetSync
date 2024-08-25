@@ -50,8 +50,8 @@ api.interceptors.response.use(
   }
 );
 
-export const register = async (name, username, email, password, password2) => {
-  return axios.post(`${BASE_URL}auth/register/`, { name, username, email, password, password2 });
+export const register = async (name, username, email, password, password2, department, team, role) => {
+  return axios.post(`${BASE_URL}auth/register/`, { name, username, email, password, password2, department, team, role });
 };
 
 export const sendActivationCode = async (email) => {
