@@ -73,7 +73,7 @@ export const login = async (email, password) => {
 
 export const createLoginSession = async (email, password) => {
   const response = await api.post('auth/session/', { email, password });
-  localStorage.setItem('user', JSON.stringify(response.data));
+  localStorage.setItem('isSuperuser', response.data.is_superuser);
   return response.data;
 };
 
@@ -81,7 +81,7 @@ export const logout = async () => {
   await api.delete('auth/session/');
   localStorage.removeItem('accessToken');
   localStorage.removeItem('refreshToken');
-  localStorage.removeItem('user');
+  localStorage.removeItem('isSuperuser');
 };
 
 export const verifyToken = async (token) => {

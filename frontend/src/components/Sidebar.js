@@ -11,12 +11,18 @@ const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [activeItem, setActiveItem] = useState('home');
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isSuperuser, setIsSuperuser] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const superuserStatus = localStorage.getItem('isSuperuser');
+    setIsSuperuser(superuserStatus === 'true');
+  }, []);
 
   useEffect(() => {
     let timer;
     if (isLoggingOut) {
-      setCollapsed(false); // Expand sidebar during logout
+      setCollapsed(false);
       timer = setTimeout(async () => {
         try {
           await logout();
@@ -34,6 +40,36 @@ const Sidebar = () => {
     setIsLoggingOut(true);
   };
 
+  const renderSidebarItems = () => {
+    const commonItems = [
+      { name: 'request', icon: FaLaptop, text: 'My Requests', link: '/request' },
+      { name: 'profile', icon: FaUser, text: 'Profile', link: '/profile' },
+    ];
+
+    const superuserItems = [
+      { name: 'home', icon: FaHome, text: 'Home', link: '/home' },
+      { name: 'devices', icon: FaComputer, text: 'Devices', link: '/devices' },
+      { name: 'requests', icon: FaLaptopFile, text: 'Requests', link: '/requests' },
+      { name: 'employees', icon: FaUsers, text: 'Employees', link: '/employees' },
+    ];
+
+    const items = isSuperuser ? [...superuserItems, ...commonItems] : commonItems;
+
+    return items.map((item) => (
+      <div
+        key={item.name}
+        className={`sidebar-item ${activeItem === item.name ? 'active' : ''}`}
+        onClick={() => setActiveItem(item.name)}
+      >
+        <Link to={item.link}>
+          <item.icon className="icon" /> <span className="sidebar-text">{item.text}</span>
+        </Link>
+      </div>
+    ));
+  };
+
+  console.log("isSuperuser", isSuperuser);
+
   return (
     <div
       className={`sidebar ${collapsed && !isLoggingOut ? 'collapsed' : ''}`}
@@ -44,54 +80,7 @@ const Sidebar = () => {
         <div className="sidebar-logo">
           <img src={logo} alt="AssetSync Logo" />
         </div>
-        <div
-          className={`sidebar-item ${activeItem === 'home' ? 'active' : ''}`} 
-          onClick={() => setActiveItem('home')}
-        >
-          <Link to="/home">
-            <FaHome className="icon" /> <span className="sidebar-text">Home</span>
-          </Link>
-        </div>
-        <div
-          className={`sidebar-item ${activeItem === 'request' ? 'active' : ''}`} 
-          onClick={() => setActiveItem('request')}
-        >
-          <Link to="/request">
-            <FaLaptop className="icon" /> <span className="sidebar-text">My Requests</span>
-          </Link>
-        </div>
-        <div
-          className={`sidebar-item ${activeItem === 'devices' ? 'active' : ''}`} 
-          onClick={() => setActiveItem('devices')}
-        >
-          <Link to="/devices">
-            <FaComputer className="icon" /> <span className="sidebar-text">Devices</span>
-          </Link>
-        </div>
-        <div
-          className={`sidebar-item ${activeItem === 'requests' ? 'active' : ''}`} 
-          onClick={() => setActiveItem('requests')}
-        >
-          <Link to="/requests">
-            <FaLaptopFile className="icon" /> <span className="sidebar-text">Requests</span>
-          </Link>
-        </div>
-        <div
-          className={`sidebar-item ${activeItem === 'employees' ? 'active' : ''}`} 
-          onClick={() => setActiveItem('employees')}
-        >
-          <Link to="/employees">
-            <FaUsers className="icon" /> <span className="sidebar-text">Employees</span>
-          </Link>
-        </div>
-        <div
-          className={`sidebar-item ${activeItem === 'profile' ? 'active' : ''}`} 
-          onClick={() => setActiveItem('profile')}
-        >
-          <Link to="/profile">
-            <FaUser className="icon" /> <span className="sidebar-text">Profile</span>
-          </Link>
-        </div>
+        {renderSidebarItems()}
       </div>
 
       <div className="bottom-sidebar">
