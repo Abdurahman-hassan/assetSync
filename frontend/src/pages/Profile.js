@@ -12,7 +12,10 @@ const Profile = () => {
   const [profile, setProfile] = useState({
     name: '',
     username: '',
-    email: ''
+    email: '',
+    department: '',
+    team: '',
+    role: ''
   });
   const [editedProfile, setEditedProfile] = useState({});
   const [message, setMessage] = useState('');
@@ -29,7 +32,10 @@ const Profile = () => {
       setProfile({
         name: response.data.name,
         username: response.data.username,
-        email: response.data.email.value
+        email: response.data.email.value,
+        department: response.data.department,
+        team: response.data.team,
+        role: response.data.role
       });
       setIsLoading(false);
     } catch (error) {
@@ -40,7 +46,11 @@ const Profile = () => {
 
   const handleEdit = () => {
     setIsEditing(true);
-    setEditedProfile({...profile});
+    setEditedProfile({
+      name: profile.name,
+      username: profile.username,
+      email: profile.email
+    });
   };
 
   const handleCancel = () => {
@@ -60,7 +70,7 @@ const Profile = () => {
   
     try {
       await updateUserProfile(editedProfile);
-      setProfile(editedProfile);
+      setProfile(prev => ({...prev, ...editedProfile}));
       setIsEditing(false);
       setMessage('Profile updated successfully');
   
@@ -109,7 +119,7 @@ const Profile = () => {
         {Object.entries(profile).map(([key, value]) => (
           <div className="profile-field" key={key}>
             <label>{key.charAt(0).toUpperCase() + key.slice(1)}</label>
-            {isEditing ? (
+            {isEditing && ['name', 'username', 'email'].includes(key) ? (
               <input
                 type="text"
                 name={key}

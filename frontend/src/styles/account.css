@@ -120,6 +120,11 @@ select.input:focus {
     box-shadow: 0 0 0 1px var(--primary-color);
 }
 
+select option {
+    background-color: var(--light-dark-color);
+    color: var(--light-color);
+}
+
 /* Error Styles */
 .error {
     color: #f87171;

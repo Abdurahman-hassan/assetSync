@@ -135,7 +135,7 @@ const Register = () => {
                 navigate('/activate');
             } catch (error) {
                 console.error('Registration failed:', error);
-                setErrors({ general: error.response?.data?.detail || 'Registration failed. Please try again.' });
+                setErrors({ general: error.response?.data?.detail || error.response.data.password || 'Registration failed. Please try again.' });
             } finally {
                 setLoading(false);
             }
