@@ -3,19 +3,24 @@
  */
 
 import { useState } from "react";
+import { login, createLoginSession } from "../services/api";
+import { useNavigate } from "react-router-dom";
+import Message from "../components/Message";
+import LoadingSpinner from "../components/LoadingSpinner";
 import backgroundLogo from "../assets/backgroundLogo.svg";
 import "../styles/account.css"
 
 const Login = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
-        confirmPassword: '',
-        department: '',
     });
 
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [message, setMessage] = useState("");
+    const [loading, setLoading] = useState(false);
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -24,36 +29,53 @@ const Login = () => {
         });
     };
 
-    const validation = () => {
-        const validateError = {};
-
-        if (!formData.email.includes('@')) validateError.email = "This email is invalid";
-        if (formData.password.length < 6) {
-            validateError.password = 'Password must be at least 6 characters long';
-        }
-        if (formData.password !== formData.confirmPassword) {
-            validateError.confirmPassword = 'Passwords do not match';
-        }
-        setErrors(validateError);
-    };
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (validation()) {
-            console.log('Form submitted successfully:', formData);
-            setErrors({});
+        setLoading(true);
+        setErrors("");
+        setMessage("");
+
+        const startTime = Date.now();
+
+        try {
+            await login(formData.email, formData.password);
+            const userData = await createLoginSession(formData.email, formData.password);
+            console.log('Login successful:', userData);
+            // Ensure loading spinner shows for at least 1 second
+            const elapsedTime = Date.now() - startTime;
+            if (elapsedTime < 2000) {
+                await new Promise(resolve => setTimeout(resolve, 2000 - elapsedTime));
+            }
+
+            setMessage("Login successful");
+            setLoading(false);
+
+            // Wait for 1.5 seconds before navigating
+            setTimeout(() => {
+                navigate('/my-requests');
+            }, 1500);
+        } catch (error) {
+            console.error('Login failed:', error);
+            setErrors(error.response?.data?.detail || "An error occurred during login");
+
+            // Ensure loading spinner shows for at least 1 second
+            const elapsedTime = Date.now() - startTime;
+            if (elapsedTime < 2000) {
+                await new Promise(resolve => setTimeout(resolve, 2000 - elapsedTime));
+            }
+            setLoading(false);
         }
     };
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
-    
+
     return ( 
         <div className="register-container">
             <div className="soligan">
                 <img src={backgroundLogo} alt="logo" className="logo" />
-                <p>Blah blah blah <br />web web web web web web web <br />web web web web web web web</p>
+                <p>AssetSync <br />Your Asset Management Solution<br />and more..</p>
             </div>
             <div className="signin">
                 <h2>Login</h2>
@@ -61,23 +83,22 @@ const Login = () => {
                     <label>Email:</label>
                     <input
                         className={`input ${errors.email ? 'error-input' : ''}`}
-                        type="text"
+                        type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="example@email.com"
                     />
-                    {errors.email && <p className="error">{errors.email}</p>}
                     
                     <label>Password:</label>
                     <input
                         className={`input ${errors.password ? 'error-input' : ''}`}
                         type={showPassword ? "text" : "password"}
                         name="password"
+                        placeholder="Password"
                         value={formData.password}
                         onChange={handleChange}
                     />
-                    {errors.password && <p className="error">{errors.password}</p>}
 
                     <button
                         type="button"
@@ -86,12 +107,20 @@ const Login = () => {
                     >
                     {showPassword ? "Hide" : "Show"} Password
                     </button>
-                    <button className="submit">Login</button>
-                    <p>Don't have an account? <a href="/">Sign up</a> </p>
+
+                    {errors && <Message type="error">{errors}</Message>}
+
+                    <button className="submit" disabled={loading}>
+                        {loading ? <LoadingSpinner color="#222831" size={20} /> : "Login"}
+                    </button>
+
+                    {message && <Message type="success">{message}</Message>}
+
+                    <p>Don't have an account? <a href="/register">Sign up</a> </p>
                 </form>
             </div>
         </div>
-     );
+    );
 }
- 
+
 export default Login;

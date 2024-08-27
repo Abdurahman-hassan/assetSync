@@ -1,0 +1,29 @@
+.request-container {
+    background-color: var(--light-dark-color);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .request-container:hover {
+    background-color: var(--secondary-color);
+  }
+  
+  .request-container h2 {
+    margin: 0;
+    font-size: 14px;
+    color: var(--light-color);
+  }
+  
+  .request-container p {
+    margin: 0;
+    color: var(--light-color);
+    font-size: 10px;
+  }
+  

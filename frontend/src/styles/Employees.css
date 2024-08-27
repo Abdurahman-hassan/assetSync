@@ -1,0 +1,82 @@
+.table-list-row {
+    transition: all 0.3s ease-in-out;
+}
+
+.table-list-row:hover {
+    box-shadow: 0 0 10px var(--secondary-color);
+    cursor: pointer;
+}
+
+/* Employee Details */
+
+.employee-details-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.employee-details-title {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.employee-details-card {
+    background-color: var(--light-dark-color);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.employee-details-field {
+    margin-bottom: 15px;
+}
+
+.employee-details-field label {
+    font-weight: bold;
+    color: var(--primary-color);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.employee-details-field input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--dark-color);
+    color: var(--light-color);
+    transition: box-shadow 0.2s;
+}
+
+.employee-details-field input:focus {
+    outline: none;
+    box-shadow: 0 0 10px var(--secondary-color);
+}
+
+.employee-details-field p {
+    color: var(--light-color);
+    background-color: var(--dark-color);
+    padding: 10px;
+    border-radius: 5px;
+    margin: 0;
+}
+
+.employee-details-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.employee-details-actions .button {
+    margin-left: 10px;
+}
+
+.employee-details-actions .deleteButton {
+    background-color: #e94f44;
+}
+
+.employee-details-actions .deleteButton:hover {
+    box-shadow: 0 0 10px #e94f44;
+}
+
