@@ -30,7 +30,7 @@ function App() {
           <Route path="/activate" element={<SuccessfulActivate />} />
           <Route path="/success-register" element={<SuccessfulRegister />} />
           <Route element={<PrivateRoute />}>
-            <Route path="/" element={<Navigate to="/my-requests" replace />} />
+            <Route path="/" element={<Navigate to="/requests" replace />} />
             <Route path="/my-requests" element={<Layout><MyRequests /></Layout>} />
             <Route path="/devices" element={<Layout><Devices /></Layout>} />
             <Route path="/devices/add-device" element={<Layout><AddDevicePage /></Layout>} />
