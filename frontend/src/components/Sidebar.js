@@ -9,7 +9,6 @@ import logo from "../assets/logo.svg";
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(true);
-  const [activeItem, setActiveItem] = useState('my-requests');
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isSuperuser, setIsSuperuser] = useState(false);
   const navigate = useNavigate();
@@ -19,12 +18,6 @@ const Sidebar = () => {
     const superuserStatus = localStorage.getItem('isSuperuser');
     setIsSuperuser(superuserStatus === 'true');
   }, []);
-
-  useEffect(() => {
-    setActiveItem('my-requests');
-  }, []);
-
-  console.log("activeItem", activeItem);
 
   useEffect(() => {
     let timer;
@@ -47,15 +40,25 @@ const Sidebar = () => {
     setIsLoggingOut(true);
   };
 
+  const isActive = (path) => {
+    if (path === '/my-requests' && location.pathname.startsWith('/requests/')) {
+      return true;
+    }
+    if (path === '/devices' && location.pathname.includes('/devices/')) {
+      return true;
+    }
+    return location.pathname === path;
+  };
+
   const renderSidebarItems = () => {
     const commonItems = [
       { name: 'my-requests', icon: FaLaptop, text: 'My Requests', link: '/my-requests' },
       { name: 'profile', icon: FaUser, text: 'Profile', link: '/profile' },
+      { name: 'devices', icon: FaComputer, text: 'Devices', link: '/devices' },
+      { name: 'notifications', icon: FaBell, text: 'Notifications', link: '/notifications' },
     ];
 
     const superuserItems = [
-      { name: 'devices', icon: FaComputer, text: 'Devices', link: '/devices' },
-      { name: 'notifications', icon: FaBell, text: 'Notifications', link: '/notifications' },
       { name: 'requests', icon: FaLaptopFile, text: 'Requests', link: '/requests' },
     ];
 
@@ -64,7 +67,7 @@ const Sidebar = () => {
     return items.map((item) => (
       <div
         key={item.name}
-        className={`sidebar-item ${location.pathname === item.link ? 'active' : ''}`}
+        className={`sidebar-item ${isActive(item.link) ? 'active' : ''}`}
       >
         <Link to={item.link}>
           <item.icon className="icon" /> <span className="sidebar-text">{item.text}</span>

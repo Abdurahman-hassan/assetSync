@@ -1,15 +1,30 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { createAssetRequest } from '../services/api';
 import '../styles/RequestDevice.css';
+import Message from '../components/Message';
 
 const RequestDevice = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const deviceId = location.state?.deviceId || '';
   const [formData, setFormData] = useState({
     request_type: 'new_device',
-    device: '',
+    device: deviceId,
     description: ''
   });
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (deviceId) {
+      setFormData(prevData => ({
+        ...prevData,
+        device: deviceId,
+        request_type: 'new_device'
+      }));
+    }
+  }, [deviceId]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -23,10 +38,13 @@ const RequestDevice = () => {
     e.preventDefault();
     try {
       await createAssetRequest(formData);
-      navigate('/my-requests');
+      setMessage('Request submitted successfully!');
+      setTimeout(() => {
+        navigate('/my-requests');
+      }, 2000);
     } catch (error) {
       console.error('Failed to create asset request:', error);
-      // Handle error (e.g., show error message to user)
+      setError('Failed to submit request. Please try again.');
     }
   };
 
@@ -50,16 +68,6 @@ const RequestDevice = () => {
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="device">Device ID (optional)</label>
-          <input
-            type="text"
-            id="device"
-            name="device"
-            value={formData.device}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="form-group">
           <label htmlFor="description">Description</label>
           <textarea
             id="description"
@@ -71,6 +79,8 @@ const RequestDevice = () => {
         </div>
         <button type="submit" className="submit-button">Submit Request</button>
       </form>
+      {message && <Message type="success">{message}</Message>}
+      {error && <Message type="error">{error}</Message>}
     </div>
   );
 };

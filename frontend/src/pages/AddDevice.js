@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Profile.css';
 import { addDevice } from '../services/api';
+import Message from '../components/Message';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const AddDevicePage = () => {
     const navigate = useNavigate();
@@ -20,6 +22,9 @@ const AddDevicePage = () => {
         photo_url: '',
         status: 'available'
     });
+    const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -31,27 +36,20 @@ const AddDevicePage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
+        setError('');
+        setMessage('');
         try {
         const response = await addDevice(formData);
         console.log('Device added successfully:', response.data);
-        setFormData({
-            hostname: '',
-            serial_number: '',
-            manufacturer: '',
-            model: '',
-            os_type: '',
-            os_version: '',
-            cpu: '',
-            cpu_cores: '',
-            cpu_threads: '',
-            ram_total_gb: '',
-            disk_total_gb: '',
-            photo_url: '',
-            status: 'available'
-        });
-        navigate('/devices');
+        setMessage('Device added successfully!');
+        setTimeout(() => {
+            navigate('/devices');
+        }, 2000);
         } catch (error) {
-        console.error('Failed to add device', error);
+        setError('Failed to add device: ' + error.message);
+        } finally {
+        setIsLoading(false);
         }
     };
 
@@ -193,12 +191,17 @@ const AddDevicePage = () => {
                 <option value="repair">In Repair</option>
                 </select>
             </div>
+            {message && <Message type="success">{message}</Message>}
+            {error && <Message type="error">{error}</Message>}
             <div className="button-group">
-                <button type="submit" className="button updateButton">Add Device</button>
+                <button type="submit" className="button updateButton" disabled={isLoading}>
+                    {isLoading ? <LoadingSpinner color="#ffffff" size={20} /> : "Add Device"}
+                </button>
                 <button
               type="button"
               className="button cancelButton"
               onClick={() => navigate('/devices')}
+              disabled={isLoading}
             >
               Cancel
             </button>

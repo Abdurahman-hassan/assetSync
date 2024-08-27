@@ -73,7 +73,6 @@ const Devices = () => {
               <div
                 key={device.id}
                 className="device-item page-item"
-                onClick={() => navigate(`/devices/${device.id}`)}
               >
                 <div className="device-image">
                   <img src={device.photo_url || logo} alt={device.model} />
@@ -85,6 +84,12 @@ const Devices = () => {
                   <p><strong>Status:</strong>
                     <span className={`device-status ${device.status.toLowerCase()}`}>{device.status}</span>
                   </p>
+                </div>
+                <div className="device-actions">
+                  <button className="device-actions-button" onClick={() => navigate(`/devices/${device.id}`)}>View Details</button>
+                  <button className="device-actions-button" onClick={() => navigate(`/my-requests/request-device`, { state: { deviceId: device.id } })}>
+                    Request Device
+                  </button>
                 </div>
               </div>
             ))}

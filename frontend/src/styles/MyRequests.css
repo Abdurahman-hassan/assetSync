@@ -6,6 +6,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 30px;
 }
 
 .request-device-button {
@@ -60,6 +61,12 @@
 }
 
 .request-item p {
-  margin: 5px 0;
+  margin: 10px 0;
   color: var(--light-color);
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }

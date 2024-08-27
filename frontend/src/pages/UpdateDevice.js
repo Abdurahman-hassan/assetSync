@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { updateDevice } from '../services/api'; 
-import api from '../services/api';
+import Message from '../components/Message';
+import { updateDevice, getDeviceById } from '../services/api';
 import '../styles/Devices.css';
 
 const UpdateDevice = () => {
@@ -23,15 +23,19 @@ const UpdateDevice = () => {
     disk_total_gb: '',
     status: ''
   });
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+  const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
     const fetchDeviceDetails = async () => {
       try {
-        const response = await api.get(`devices/${id}`);
+        const response = await getDeviceById(id);
         setDevice(response.data);
         setIsLoading(false);
       } catch (error) {
         console.error('Error fetching device details:', error);
+        setError('Failed to fetch device details. Please try again.');
         setIsLoading(false);
       }
     };
@@ -49,11 +53,20 @@ const UpdateDevice = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsUpdating(true);
+    setError('');
+    setMessage('');
     try {
       await updateDevice(id, device);
-      navigate(`/devices/${id}`);
+      setMessage('Device updated successfully!');
+      setTimeout(() => {
+        navigate(`/devices/${id}`);
+      }, 2000);
     } catch (error) {
       console.error('Error updating device:', error);
+      setError('Failed to update device. Please try again.');
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -183,9 +196,20 @@ const UpdateDevice = () => {
           </div>
         </div>
         <div className="form-actions">
-          <button type="submit" className="button updateButton">Update Device</button>
-          <button type="button" className="button cancelButton" onClick={() => navigate(`/devices/${id}`)}>Cancel</button>
+          <button type="submit" className="button updateButton" disabled={isUpdating}>
+            {isUpdating ? <LoadingSpinner color="#ffffff" size={20} /> : "Update Device"}
+          </button>
+          <button 
+            type="button" 
+            className="button cancelButton" 
+            onClick={() => navigate(`/devices/${id}`)}
+            disabled={isUpdating}
+          >
+            Cancel
+          </button>
         </div>
+        {message && <Message type="success">{message}</Message>}
+        {error && <Message type="error">{error}</Message>}
       </form>
     </div>
   );

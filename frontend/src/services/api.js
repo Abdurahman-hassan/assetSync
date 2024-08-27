@@ -120,23 +120,42 @@ export const getAllDevices = async (url = null) => {
 };
 
 export const getDeviceById = async (id) => {
-  return api.get(`devices/${id}`);
+  return api.get(`devices/${id}/`);
 };
 
 export const updateDevice = async (id, deviceData) => {
-  return api.put(`devices/${id}`, deviceData);
+  return api.put(`devices/${id}/`, deviceData);
 };
 
 export const deleteDevice = async (id) => {
-  return api.delete(`devices/${id}`);
+  return api.delete(`devices/${id}/`);
 };
 
-export const getMyRequests = async () => {
-  return api.get('asset-request/my/');
+export const getMyRequests = async (url = null) => {
+  const endpoint = url || 'asset-requests/my/';
+  return await api.get(endpoint);
 };
 
 export const createAssetRequest = async (requestData) => {
   return api.post('asset-requests/', requestData);
+};
+
+export const getNotifications = async (url = null) => {
+  const endpoint = url || 'notifications/';
+  return await api.get(endpoint);
+};
+
+export const getNotificationById = async (id) => {
+  return await api.get(`notifications/${id}/`);
+};
+
+export const getAssetRequests = async (url = null) => {
+  const endpoint = url || 'asset-requests/';
+  return await api.get(endpoint);
+};
+
+export const getAssetRequestById = async (id) => {
+  return await api.get(`asset-requests/${id}/`);
 };
 
 export default api;

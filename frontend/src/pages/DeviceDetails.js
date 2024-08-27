@@ -10,6 +10,11 @@ const DeviceDetails = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const [device, setDevice] = useState(null); 
+  const [is_superuser, setIsSuperuser] = useState(false);
+
+  useEffect(() => {
+    setIsSuperuser(localStorage.getItem('is_superuser') === 'true');
+  }, []);
 
   useEffect(() => {
     const fetchDevice = async () =>{
@@ -56,14 +61,16 @@ const DeviceDetails = () => {
               <p className="detail">Storage: {device.disk_total_gb}GB</p>
               <p className="detail">Status: <span className={`device-status ${device.status.toLowerCase()}`}>{device.status}</span></p>
             </div>
-            <div className="buttonContainer">
-              <button className={"button updateButton"} onClick={() => navigate(`/devices/${id}/update-device`)}>
-                Update
-              </button>
-              <button className={"button deleteButton"} onClick={handleDelete}>
-                Delete
-              </button>
-            </div>
+            {is_superuser && (
+              <div className="buttonContainer">
+                <button className={"button updateButton"} onClick={() => navigate(`/devices/${id}/update-device`)}>
+                  Update
+                </button>
+                <button className={"button deleteButton"} onClick={handleDelete}>
+                  Delete
+                </button>
+              </div>
+            )}
           </div>
         </>
       )}
