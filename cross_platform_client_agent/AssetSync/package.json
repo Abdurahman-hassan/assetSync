@@ -1,0 +1,46 @@
+{
+  "name": "AssetSync",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package-mac": "electron-packager . AssetSync --platform=darwin --arch=x64 --overwrite",
+    "package-win": "electron-packager . AssetSync --platform=win32 --arch=ia32  --overwrite",
+    "package-linux": "electron-packager . AssetSync --platform=linux --arch=x64  --overwrite",
+    "build": "electron-builder"
+  },
+  "build": {
+    "appId": "io.greencoder.assetsync",
+    "productName": "AssetSync",
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*",
+      "index.html",
+      "main.js",
+      "preload.js",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    },
+    "mac": {
+      "target": "dmg"
+    }
+  },
+  "keywords": [],
+  "author": "AssetSync Team",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.4",
+    "systeminformation": "^5.23.5"
+  },
+  "devDependencies": {
+    "electron": "^32.0.1",
+    "electron-builder": "^24.13.3",
+    "electron-packager": "^17.1.2"
+  }
+}

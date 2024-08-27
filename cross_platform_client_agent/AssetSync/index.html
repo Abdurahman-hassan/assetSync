@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Hardware Information</title>
+</head>
+<body>
+<h1>Device Hardware Information</h1>
+<button id="collect-btn">Collect Hardware Data</button>
+<button id="send-btn" disabled>Send Hardware Data</button>
+<pre id="output"></pre>
+
+<script>
+    const { ipcRenderer } = require('electron');
+
+    document.getElementById('collect-btn').addEventListener('click', async () => {
+        const hardwareSpecs = await ipcRenderer.invoke('collect-hardware-data');
+        document.getElementById('output').textContent = JSON.stringify(hardwareSpecs, null, 4);
+        document.getElementById('send-btn').disabled = false;
+    });
+
+    document.getElementById('send-btn').addEventListener('click', async () => {
+        const hardwareSpecs = JSON.parse(document.getElementById('output').textContent);
+        const response = await ipcRenderer.invoke('send-hardware-data', hardwareSpecs);
+
+        if (response.success) {
+            alert(response.message);
+        } else {
+            alert(`Error: ${response.message}`);
+        }
+    });
+</script>
+</body>
+</html>
