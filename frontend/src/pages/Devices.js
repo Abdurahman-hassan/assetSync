@@ -3,16 +3,30 @@ import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import logo from '../assets/logo192.png';
 import '../styles/Devices.css';
+import { getAllDevices } from '../services/api';
 
 const Devices = () => {
 
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
+  const [devices, setDevices] = useState([]);
+  const [isSuperuser, setIsSuperuser] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    const superuserStatus = localStorage.getItem('isSuperuser') === 'true';
+    setIsSuperuser(superuserStatus);
+
+    const fetchDevices = async () => {
+      try {
+        const response = await getAllDevices();
+        setDevices(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching devices:', error);
+        setIsLoading(false);
+      }
+    }; 
+    fetchDevices();
   }, []);
 
   if (isLoading) {
@@ -22,113 +36,42 @@ const Devices = () => {
   }
 
   return (
-    <>
-      <div className="devices page">
+    <div className="devices page">
         <div className="page-header">
           <h1>Devices</h1>
         </div>
         <div className="devices-items page-items">
-
-          <div className="device-item page-item" onClick={() => navigate('/devices/device-details')}>
+          {devices.map((device) => (
+            <div
+              key={device.id}
+              className="device-item page-item"
+              onClick={() => navigate(`/devices/${device.id}`)} 
+            >
               <div className="device-image">
-                  <img src={logo} alt="Device" />
+                <img src={device.photo_url || logo} alt={device.model} />
               </div>
               <div className="device-data">
-                <p><strong>Serial Number:</strong> 1234567890</p>
-                <p><strong>Manufacturer:</strong> Apple</p>
-                <p><strong>Model:</strong> iPhone 12</p>
-                <p><strong>Status:</strong><span className="device-status active">Active</span></p>
+                <p><strong>Serial Number:</strong> {device.serial_number}</p>
+                <p><strong>Manufacturer:</strong> {device.manufacturer}</p>
+                <p><strong>Model:</strong> {device.model}</p>
+                <p><strong>Status:</strong>
+                  <span className={`device-status ${device.status.toLowerCase()}`}>{device.status}</span>
+                </p>
               </div>
-          </div>
-
-          <div className="device-item page-item">
-              <div className="device-image">
-                  <img src={logo} alt="Device" />
-              </div>
-              <div className="device-data">
-                <p><strong>Serial Number:</strong> 1234567890</p>
-                <p><strong>Manufacturer:</strong> Apple</p>
-                <p><strong>Model:</strong> iPhone 12</p>
-                <p><strong>Status:</strong><span className="device-status">Inactive</span></p>
-              </div>
-          </div>
-
-          <div className="device-item page-item">
-              <div className="device-image">
-                  <img src={logo} alt="Device" />
-              </div>
-              <div className="device-data">
-                <p><strong>Serial Number:</strong> serial_number</p>
-                <p><strong>Manufacturer:</strong> Apple</p>
-                <p><strong>Model:</strong> iPhone 12</p>
-                <p><strong>Status:</strong><span className="device-status active">Active</span></p>
-              </div>
-          </div>
-
-          <div className="device-item page-item">
-              <div className="device-image">
-                  <img src={logo} alt="Device" />
-              </div>
-              <div className="device-data">
-                <p><strong>Serial Number:</strong> 1234567890</p>
-                <p><strong>Manufacturer:</strong> Apple</p>
-                <p><strong>Model:</strong> iPhone 12</p>
-                <p><strong>Status:</strong><span className="device-status">Inactive</span></p>
-              </div>
-          </div>
-
-          <div className="device-item page-item">
-              <div className="device-image">
-                  <img src={logo} alt="Device" />
-              </div>
-              <div className="device-data">
-                <p><strong>Serial Number:</strong> 1234567890</p>
-                <p><strong>Manufacturer:</strong> Apple</p>
-                <p><strong>Model:</strong> MacBook Pro</p>
-                <p><strong>Status:</strong><span className="device-status">Inactive</span></p>
-              </div>
-          </div>
-
-          <div className="device-item page-item">
-              <div className="device-image">
-                  <img src={logo} alt="Device" />
-              </div>
-              <div className="device-data">
-                <p><strong>Serial Number:</strong> 1234567890</p>
-                <p><strong>Manufacturer:</strong> Apple</p>
-                <p><strong>Model:</strong> MacBook Pro</p>
-                <p><strong>Status:</strong><span className="device-status">Inactive</span></p>
-              </div>
-          </div>
-
-          <div className="device-item page-item">
-              <div className="device-image">
-                  <img src={logo} alt="Device" />
-              </div>
-              <div className="device-data">
-                <p><strong>Serial Number:</strong> 1234567890</p>
-                <p><strong>Manufacturer:</strong> HP</p>
-                <p><strong>Model:</strong> HP Pavilion</p>
-                <p><strong>Status:</strong><span className="device-status">Inactive</span></p>
-              </div>
-          </div>
-
-          <div className="device-item page-item">
-              <div className="device-image">
-                  <img src={logo} alt="Device" />
-              </div>
-              <div className="device-data">
-                <p><strong>Serial Number:</strong> 1234567890</p>
-                <p><strong>Manufacturer:</strong> Dell</p>
-                <p><strong>Model:</strong> Inspiron 15</p>
-                <p><strong>Status:</strong><span className="device-status">Inactive</span></p>
-              </div>
-          </div>
-
+            </div>
+          ))}
         </div>
+
+        {isSuperuser && (
+          <button
+            className="button add-device-button"
+            onClick={() => navigate('/add-device')}
+          >
+            Add Device
+          </button>
+        )}
       </div>
-    </>
-  );
+    );
 }
 
 export default Devices;

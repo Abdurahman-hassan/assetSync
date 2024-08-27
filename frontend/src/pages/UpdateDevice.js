@@ -1,29 +1,40 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { updateDevice } from '../services/api'; 
+import api from '../services/api';
 import '../styles/Devices.css';
 
 const UpdateDevice = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [device, setDevice] = useState({
-    manufacturer: 'Apple',
-    model: 'iPhone 12',
-    serial_number: '1234567890',
-    os_type: 'iOS',
-    os_version: '15.0',
-    cpu: 'A14 Bionic',
-    ram: '4GB',
-    storage: '128GB',
-    status: 'Active'
+    manufacturer: '',
+    model: '',
+    serial_number: '',
+    os_type: '',
+    os_version: '',
+    cpu: '',
+    ram: '',
+    storage: '',
+    status: ''
   });
 
   useEffect(() => {
-    // Simulating API call to fetch device details
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  }, []);
+    const fetchDeviceDetails = async () => {
+      try {
+        const response = await api.get(`devices/${id}`);
+        setDevice(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching device details:', error);
+        setIsLoading(false);
+      }
+    };
+    
+    fetchDeviceDetails();
+  }, [id]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -33,12 +44,15 @@ const UpdateDevice = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here would typically send the updated device data to API
-    console.log('Updated device:', device);
-    // Navigate back to device details page after update
-    navigate('/devices/device-details');
+    try {
+      await updateDevice(id, device);
+      console.log('Updated device:', device);
+      navigate('/devices/device-details');
+    } catch (error) {
+      console.error('Error updating device:', error);
+    }
   };
 
   if (isLoading) {
@@ -156,7 +170,6 @@ const UpdateDevice = () => {
             </label>
           </div>
         </div>
-
         <div className="form-actions">
           <button type="submit" className="button updateButton">Update Device</button>
           <button type="button" className="button cancelButton" onClick={() => navigate('/devices/device-details')}>Cancel</button>

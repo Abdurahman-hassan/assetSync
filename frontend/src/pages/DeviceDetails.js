@@ -1,32 +1,39 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import logo from '../assets/logo192.png';
 import '../styles/Devices.css';
+import { getDeviceById, deleteDevice } from '../services/api';
 
 const DeviceDetails = () => {
-
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-
-  const deviceo = {
-    photo_url: logo,
-    manufacturer: 'Apple',
-    model: 'iPhone 12',
-    serial_number: '1234567890',
-    os_type: 'iOS',
-    os_version: '15.0',
-    cpu: 'A14 Bionic',
-    ram: '4GB',
-    storage: '128GB',
-    status: 'Active'
-  }
+  const { id } = useParams();
+  const [device, setDevice] = useState(null); 
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  }, []); 
+    const fetchDevice = async () =>{
+      try {
+        const response = await getDeviceById(id);
+        setDevice(response.data);
+        setIsLoading(false);
+      } catch  (error) {
+        console.log('Error fetching device details:', error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchDevice();
+  }, [id]);
+
+  const handleDelete = async () => {
+    try {
+      await deleteDevice(id);
+      navigate('/devices');
+    } catch (error) {
+      console.error('Error deleting device:', error);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -36,26 +43,30 @@ const DeviceDetails = () => {
 
   return (
     <div className="container">
-      <img src={deviceo.photo_url} alt={`${deviceo.manufacturer} ${deviceo.model}`} className="image" />
-      <div className="details-container">
-        <div className="details">
-          <h2 className="title">{deviceo.manufacturer} {deviceo.model}</h2>
-          <p className="detail">Serial Number: {deviceo.serial_number}</p>
-          <p className="detail">OS: {deviceo.os_type} {deviceo.os_version}</p>
-          <p className="detail">CPU: {deviceo.cpu}</p>
-          <p className="detail">RAM: {deviceo.ram}</p>
-          <p className="detail">Storage: {deviceo.storage}</p>
-          <p className="detail">Status: <span className="device-status active">Active</span></p>
-        </div>
-        <div className="buttonContainer">
-          <button className={"button updateButton"} onClick={() => navigate('/devices/update-device')}>
-            Update
-          </button>
-          <button className={"button deleteButton"} onClick={() => console.log('delete')}>
-            Delete
-          </button>
-        </div>
-      </div>
+      {device && (
+        <>
+          <img src={device.photo_url || logo} alt={`${device.manufacturer} ${device.model}`} className="image" />
+          <div className="details-container">
+            <div className="details">
+              <h2 className="title">{device.manufacturer} {device.model}</h2>
+              <p className="detail">Serial Number: {device.serial_number}</p>
+              <p className="detail">OS: {device.os_type} {device.os_version}</p>
+              <p className="detail">CPU: {device.cpu}</p>
+              <p className="detail">RAM: {device.ram_total_gb}GB</p>
+              <p className="detail">Storage: {device.disk_total_gb}GB</p>
+              <p className="detail">Status: <span className={`device-status ${device.status.toLowerCase()}`}>{device.status}</span></p>
+            </div>
+            <div className="buttonContainer">
+              <button className={"button updateButton"} onClick={() => navigate(`/devices/update-device/${id}`)}>
+                Update
+              </button>
+              <button className={"button deleteButton"} onClick={handleDelete}>
+                Delete
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
