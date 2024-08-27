@@ -65,7 +65,7 @@ const Devices = () => {
         {isSuperuser && (
           <button
             className="button add-device-button"
-            onClick={() => navigate('/add-device')}
+            onClick={() => navigate('/device')}
           >
             Add Device
           </button>

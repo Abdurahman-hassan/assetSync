@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/Profile.css';
 import { addDevice } from '../services/api';
 
-const AddDevicePage = () => {
+const AddDevice = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         hostname: '',
@@ -208,4 +208,4 @@ const AddDevicePage = () => {
     );
 };
 
-export default AddDevicePage;
+export default AddDevice;

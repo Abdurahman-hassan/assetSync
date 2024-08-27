@@ -126,5 +126,9 @@ export const updateDevice = async (id, deviceData) => {
   return api.put(`devices/${id}`, deviceData);
 };
 
+export const deleteDevice = async (id) => {
+  return api.delete(`devices/${id}`);
+};
+
 
 export default api;
