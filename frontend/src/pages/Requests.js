@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { getAssetRequests } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import '../styles/Requests.css';
@@ -9,7 +9,7 @@ const Requests = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [nextPage, setNextPage] = useState(null);
   const [previousPage, setPreviousPage] = useState(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const fetchRequests = useCallback(async (url = null) => {
     setIsLoading(true);
@@ -29,9 +29,9 @@ const Requests = () => {
     fetchRequests();
   }, [fetchRequests]);
 
-  const handleRequestClick = (requestId) => {
-    navigate(`/requests/${requestId}`);
-  };
+  // const handleRequestClick = (requestId) => {
+  //   navigate(`/requests/${requestId}`);
+  // };
 
   if (isLoading) return <LoadingSpinner />;
 
@@ -40,7 +40,7 @@ const Requests = () => {
       <h1>Asset Requests</h1>
       <div className="requests-list">
         {requests.map(request => (
-          <div key={request.id} className="request-item" onClick={() => handleRequestClick(request.id)}>
+          <div key={request.id} className="request-item">
             <p><strong>Type:</strong> {request.request_type}</p>
             <p><strong>Status:</strong> {request.status}</p>
             <p><strong>Requested at:</strong> {new Date(request.requested_at).toLocaleString()}</p>

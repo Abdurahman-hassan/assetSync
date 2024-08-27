@@ -44,7 +44,7 @@ const RequestDevice = () => {
       }, 2000);
     } catch (error) {
       console.error('Failed to create asset request:', error);
-      setError('Failed to submit request. Please try again.');
+      setError(error.response.data.error || 'Failed to submit request. Please try again.');
     }
   };
 

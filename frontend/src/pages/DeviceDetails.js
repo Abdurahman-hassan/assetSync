@@ -13,7 +13,7 @@ const DeviceDetails = () => {
   const [is_superuser, setIsSuperuser] = useState(false);
 
   useEffect(() => {
-    setIsSuperuser(localStorage.getItem('is_superuser') === 'true');
+    setIsSuperuser(localStorage.getItem('isSuperuser') === 'true');
   }, []);
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { logout } from "../services/api";
-import { FaLaptop, FaUser, FaSignOutAlt, FaBell } from "react-icons/fa";
+import { FaUser, FaSignOutAlt, FaBell } from "react-icons/fa";
 import { FaLaptopFile, FaComputer } from "react-icons/fa6";
 import LoadingSpinner from "./LoadingSpinner";
 import '../styles/Sidebar.css';
@@ -52,10 +52,11 @@ const Sidebar = () => {
 
   const renderSidebarItems = () => {
     const commonItems = [
-      { name: 'my-requests', icon: FaLaptop, text: 'My Requests', link: '/my-requests' },
+      // { name: 'my-requests', icon: FaLaptop, text: 'My Requests', link: '/my-requests' },
       { name: 'profile', icon: FaUser, text: 'Profile', link: '/profile' },
       { name: 'devices', icon: FaComputer, text: 'Devices', link: '/devices' },
       { name: 'notifications', icon: FaBell, text: 'Notifications', link: '/notifications' },
+      { name: 'requests', icon: FaLaptopFile, text: 'Requests', link: '/requests' },
     ];
 
     const superuserItems = [
