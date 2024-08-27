@@ -132,12 +132,12 @@
     color: var(--light-color);
 }
 
-.updateButton {
+.updateButton , .add-device-button{
     background-color: var(--secondary-color);
     margin-right: 25px;
 }
 
-.updateButton:hover {
+.updateButton:hover,  .add-device-button:hover{
     background-color: var(--secondary-color);
     box-shadow: 0 0 10px var(--secondary-color);
 }
