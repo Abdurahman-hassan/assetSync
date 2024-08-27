@@ -1,0 +1,65 @@
+.my-requests-container {
+  padding: 20px;
+}
+
+.my-requests-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.request-device-button {
+  padding: 10px 20px;
+  background-color: var(--secondary-color);
+  color: var(--light-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.request-device-button:hover {
+  background-color: var(--primary-color);
+  color: var(--dark-color);
+}
+
+.no-requests-message {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 50px;
+  color: var(--light-color);
+  opacity: 0.5;
+  background-color: var(--light-dark-color);
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.requests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.request-item {
+  background-color: var(--light-dark-color);
+  border-radius: 10px;
+  padding: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.request-item:hover {
+  background-color: var(--secondary-color);
+}
+
+.request-item h3 {
+  margin: 0 0 10px;
+  color: var(--primary-color);
+}
+
+.request-item p {
+  margin: 5px 0;
+  color: var(--light-color);
+}

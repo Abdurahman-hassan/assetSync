@@ -3,26 +3,25 @@ import Sidebar from "./Sidebar";
 import "../styles/Layout.css";
 
 const Layout = ({children}) => {
-
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [contentLoaded, setContentLoaded] = useState(false);
 
     useEffect(() => {
-        setIsLoaded(false);
-        const timer = setTimeout(() => {
-            setIsLoaded(true);
-        }, 1000);
+        setContentLoaded(false);
+        const transformTimer = setTimeout(() => {
+            setContentLoaded(true);
+        }, 50); // Small delay to ensure DOM update
 
-        return () => clearTimeout(timer);
+        return () => clearTimeout(transformTimer);
     }, [children]);
 
     return (
         <div className="layout">
             <Sidebar/>
-            <main className={`main-content ${isLoaded ? "loaded" : ""}`}>
+            <main className={`main-content ${contentLoaded ? "loaded" : ""}`}>
                 {children}
             </main>
         </div>
-    )
-}
+    );
+};
 
 export default Layout;

@@ -108,4 +108,12 @@ export const resetPassword = async (key, email, password, password2) => {
   return api.post('user/reset_password/', { key, email, password, password2 });
 };
 
+export const getMyRequests = async () => {
+  return api.get('asset-request/my/');
+};
+
+export const createAssetRequest = async (requestData) => {
+  return api.post('asset-requests/', requestData);
+};
+
 export default api;

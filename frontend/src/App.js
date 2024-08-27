@@ -10,6 +10,8 @@ import Profile from './pages/Profile';
 import Devices from './pages/Devices';
 import PrivateRoute from './routes/PrivateRoute';
 import ResetPassword from './pages/ResetPassword';
+import MyRequests from './pages/MyRequests';
+import RequestDevice from './pages/RequestDevice';
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
             <Route path="/devices" element={<Layout><Devices /></Layout>} />
             <Route path="/profile" element={<Layout><Profile /></Layout>} />
             <Route path="/profile/reset-password" element={<ResetPassword />} />
+            <Route path="/my-requests" element={<Layout><MyRequests /></Layout>} />
+            <Route path="/my-requests/request-device" element={<Layout><RequestDevice /></Layout>} />
             {/* Add more protected routes here */}
           </Route>
         </Routes>
