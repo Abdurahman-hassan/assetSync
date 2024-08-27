@@ -5,6 +5,7 @@ from app.notification.models import Notification
 from rest_framework import status
 from app.utils.permissions import NotAuthenticatedPermission
 from app.user.models import User
+from app.assignment.models import Assignment
 from app.account.serializers import RegisterSerializer, UserSerializer
 
 
@@ -44,7 +45,7 @@ class Register(CreateAPIView):
                 device = self.get_suitable_device_for_department(user.department, user.team, suitable_devices)
 
             if device:
-                device.assigned_to = user
+                assignment = Assignment.objects.create(user=user, device=device, status='active')
                 device.status = 'assigned'
                 device.save()
 

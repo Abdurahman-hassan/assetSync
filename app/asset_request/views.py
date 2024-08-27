@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions, status, serializers
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -7,17 +7,33 @@ from .models import AssetRequest
 from .serializers import AssetRequestSerializer
 from ..device.models import Device
 from ..notification.models import Notification
+from ..assignment.models import Assignment
 
 from ..utils.permissions import IsStaff, ModelPermissions, IsOwnerOrAdmin
 
 user = get_user_model()
 
-# List all asset requests (Admin only)
+# # List all asset requests (Admin only)
+# class AssetRequestListView(generics.ListCreateAPIView):
+#     queryset = AssetRequest.objects.all()
+#     serializer_class = AssetRequestSerializer
+#     permission_classes = [IsStaff, ModelPermissions]
 class AssetRequestListView(generics.ListCreateAPIView):
-    queryset = AssetRequest.objects.all()
     serializer_class = AssetRequestSerializer
-    permission_classes = [IsStaff, ModelPermissions]
 
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_staff or user.is_superuser:
+            return AssetRequest.objects.all()
+        return AssetRequest.objects.filter(user=user)
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        device = serializer.validated_data.get('device')
+        # Ensure the device is assigned to the user
+        if not Assignment.objects.filter(user=user, device=device, status='active').exists():
+            raise serializers.ValidationError("You can only request devices assigned to you.")
+        serializer.save(user=user)
 
 # List asset requests made by the current user
 class MyAssetRequestListView(generics.ListAPIView):

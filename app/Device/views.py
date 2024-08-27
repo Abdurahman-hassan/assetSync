@@ -6,23 +6,63 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from app.device.models import Device
+from app.assignment.models import Assignment
 from .serializers import DeviceHardwareDataSerializer
 
 # log = logging.Logger(__name__).get()
 
 
 class DeviceListView(generics.ListCreateAPIView):
-    """ API view to list all devices or create a new device (Admin only) """
-    queryset = Device.objects.all()
+    """ API view to list all devices or create a new device if admin or return the
+    device related to the user """
     serializer_class = DeviceHardwareDataSerializer
-    permission_classes = [IsSuperUser, ModelPermissions]
+
+    def get_queryset(self):
+        """
+        Optionally restricts the returned devices to the ones assigned to
+        the currently authenticated user.
+        """
+        user = self.request.user
+        if user.is_superuser:
+            return Device.objects.all()
+        # Filter devices based on the assignments
+        assigned_device_ids = Assignment.objects.filter(user=user).values_list('device_id', flat=True)
+        return Device.objects.filter(id__in=assigned_device_ids)
+
+    def perform_create(self, serializer):
+        """
+        Save the user who created the device.
+        """
+        if not self.request.user.is_superuser:
+            raise PermissionDenied("You do not have permission to create a device.")
+        serializer.save()
+
+    def post(self, request, *args, **kwargs):
+        """
+        Handle the POST request to create a device.
+        """
+        if not request.user.is_superuser:
+            return Response({"detail": "You do not have permission to create a device."}, status=status.HTTP_403_FORBIDDEN)
+        return super().post(request, *args, **kwargs)
+    #queryset = Device.objects.all()
+    #serializer_class = DeviceHardwareDataSerializer
+    #permission_classes = [IsSuperUser, ModelPermissions]
 
 
 class DeviceDetailView(generics.RetrieveUpdateDestroyAPIView):
     """" API view to retrieve, update, or delete a specific device (Admin only)"""
-    queryset = Device.objects.all()
     serializer_class = DeviceHardwareDataSerializer
-    permission_classes = [IsSuperUser, ModelPermissions]
+
+    def get_queryset(self):
+        """
+        Restrict the queryset to the device being accessed.
+        """
+        user = self.request.user
+        device_id = self.kwargs.get('pk')
+        if user.is_superuser:
+            return Device.objects.filter(id=device_id)
+        assigned_device_ids = Assignment.objects.filter(user=user).values_list('device_id', flat=True)
+        return Device.objects.filter(id=device_id, id__in=assigned_device_ids)
 
 
 class DeviceHardwareRecevier(APIView):
