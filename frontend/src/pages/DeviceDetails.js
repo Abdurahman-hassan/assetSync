@@ -57,7 +57,7 @@ const DeviceDetails = () => {
               <p className="detail">Status: <span className={`device-status ${device.status.toLowerCase()}`}>{device.status}</span></p>
             </div>
             <div className="buttonContainer">
-              <button className={"button updateButton"} onClick={() => navigate(`/devices/update-device/${id}`)}>
+              <button className={"button updateButton"} onClick={() => navigate(`/devices/${id}/update-device`)}>
                 Update
               </button>
               <button className={"button deleteButton"} onClick={handleDelete}>

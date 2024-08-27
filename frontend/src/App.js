@@ -12,6 +12,9 @@ import PrivateRoute from './routes/PrivateRoute';
 import ResetPassword from './pages/ResetPassword';
 import MyRequests from './pages/MyRequests';
 import RequestDevice from './pages/RequestDevice';
+import AddDevicePage from './pages/AddDevice';
+import DeviceDetails from './pages/DeviceDetails';
+import UpdateDevice from './pages/UpdateDevice';
 
 function App() {
   return (
@@ -23,8 +26,11 @@ function App() {
           <Route path="/activate" element={<SuccessfulActivate />} />
           <Route path="/success-register" element={<SuccessfulRegister />} />
           <Route element={<PrivateRoute />}>
-            <Route path="/" element={<Layout><Devices /></Layout>} />
+            <Route path="/" element={<Layout><MyRequests /></Layout>} />
             <Route path="/devices" element={<Layout><Devices /></Layout>} />
+            <Route path="/devices/add-device" element={<Layout><AddDevicePage /></Layout>} />
+            <Route path="/devices/:id" element={<Layout><DeviceDetails /></Layout>} />
+            <Route path="/devices/:id/update-device" element={<Layout><UpdateDevice /></Layout>} />
             <Route path="/profile" element={<Layout><Profile /></Layout>} />
             <Route path="/profile/reset-password" element={<ResetPassword />} />
             <Route path="/my-requests" element={<Layout><MyRequests /></Layout>} />

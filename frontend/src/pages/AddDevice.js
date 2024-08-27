@@ -189,7 +189,8 @@ const AddDevicePage = () => {
                 className="profile-field-input"
                 >
                 <option value="available">Available</option>
-                <option value="unavailable">Unavailable</option>
+                <option value="assigned">Assigned</option>
+                <option value="repair">In Repair</option>
                 </select>
             </div>
             <div className="button-group">

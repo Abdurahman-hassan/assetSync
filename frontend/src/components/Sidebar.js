@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { logout } from "../services/api";
-import { FaHome, FaLaptop, FaUser, FaUsers, FaSignOutAlt, FaBell } from "react-icons/fa";
+import { FaLaptop, FaUser, FaSignOutAlt, FaBell } from "react-icons/fa";
 import { FaLaptopFile, FaComputer } from "react-icons/fa6";
 import LoadingSpinner from "./LoadingSpinner";
 import '../styles/Sidebar.css';
@@ -9,15 +9,22 @@ import logo from "../assets/logo.svg";
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(true);
-  const [activeItem, setActiveItem] = useState('home');
+  const [activeItem, setActiveItem] = useState('my-requests');
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isSuperuser, setIsSuperuser] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const superuserStatus = localStorage.getItem('isSuperuser');
     setIsSuperuser(superuserStatus === 'true');
   }, []);
+
+  useEffect(() => {
+    setActiveItem('my-requests');
+  }, []);
+
+  console.log("activeItem", activeItem);
 
   useEffect(() => {
     let timer;
@@ -47,11 +54,9 @@ const Sidebar = () => {
     ];
 
     const superuserItems = [
-      { name: 'home', icon: FaHome, text: 'Home', link: '/home' },
       { name: 'devices', icon: FaComputer, text: 'Devices', link: '/devices' },
       { name: 'notifications', icon: FaBell, text: 'Notifications', link: '/notifications' },
       { name: 'requests', icon: FaLaptopFile, text: 'Requests', link: '/requests' },
-      { name: 'employees', icon: FaUsers, text: 'Employees', link: '/employees' },
     ];
 
     const items = isSuperuser ? [...superuserItems, ...commonItems] : commonItems;
@@ -59,8 +64,7 @@ const Sidebar = () => {
     return items.map((item) => (
       <div
         key={item.name}
-        className={`sidebar-item ${activeItem === item.name ? 'active' : ''}`}
-        onClick={() => setActiveItem(item.name)}
+        className={`sidebar-item ${location.pathname === item.link ? 'active' : ''}`}
       >
         <Link to={item.link}>
           <item.icon className="icon" /> <span className="sidebar-text">{item.text}</span>
@@ -68,8 +72,6 @@ const Sidebar = () => {
       </div>
     ));
   };
-
-  console.log("isSuperuser", isSuperuser);
 
   return (
     <div

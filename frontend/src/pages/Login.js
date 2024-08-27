@@ -52,7 +52,7 @@ const Login = () => {
 
             // Wait for 1.5 seconds before navigating
             setTimeout(() => {
-                navigate('/devices');
+                navigate('/my-requests');
             }, 1500);
         } catch (error) {
             console.error('Login failed:', error);

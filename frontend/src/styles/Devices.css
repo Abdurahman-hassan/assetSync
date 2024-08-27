@@ -137,6 +137,10 @@
     margin-right: 25px;
 }
 
+.add-device-button {
+    margin-right: 0px;
+}
+
 .updateButton:hover,  .add-device-button:hover{
     background-color: var(--secondary-color);
     box-shadow: 0 0 10px var(--secondary-color);
@@ -221,4 +225,46 @@
 
 .cancelButton:hover {
     box-shadow: 0 0 10px var(--dark-color);
+}
+
+.no-devices-message {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 50px;
+    color: var(--light-color);
+    opacity: 0.5;
+    background-color: var(--light-dark-color);
+    padding: 50px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.devices-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.prev-button, .next-button {
+    background-color: var(--secondary-color);
+    color: var(--light-color);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+}
+
+.prev-button:disabled, .next-button:disabled {
+    background-color: var(--light-dark-color);
+    cursor: not-allowed;
 }

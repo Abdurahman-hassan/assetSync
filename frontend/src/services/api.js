@@ -108,14 +108,15 @@ export const resetPassword = async (key, email, password, password2) => {
   return api.post('user/reset_password/', { key, email, password, password2 });
 };
 
-
-
 export const addDevice = async (deviceData) => {
-  return api.post('devices', deviceData);
+  return api.post('devices/', deviceData);
 };
 
-export const getAllDevices = async () => {
-  return api.get('devices');
+export const getAllDevices = async (url = null) => {
+  if (url) {
+    return api.get(url);
+  }
+  return api.get('devices/');
 };
 
 export const getDeviceById = async (id) => {
@@ -126,6 +127,9 @@ export const updateDevice = async (id, deviceData) => {
   return api.put(`devices/${id}`, deviceData);
 };
 
+export const deleteDevice = async (id) => {
+  return api.delete(`devices/${id}`);
+};
 
 export const getMyRequests = async () => {
   return api.get('asset-request/my/');

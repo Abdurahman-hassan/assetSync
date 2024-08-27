@@ -10,14 +10,17 @@ const UpdateDevice = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [device, setDevice] = useState({
+    hostname: '',
     manufacturer: '',
     model: '',
     serial_number: '',
     os_type: '',
     os_version: '',
     cpu: '',
-    ram: '',
-    storage: '',
+    cpu_cores: '',
+    cpu_threads: '',
+    ram_total_gb: '',
+    disk_total_gb: '',
     status: ''
   });
 
@@ -48,8 +51,7 @@ const UpdateDevice = () => {
     e.preventDefault();
     try {
       await updateDevice(id, device);
-      console.log('Updated device:', device);
-      navigate('/devices/device-details');
+      navigate(`/devices/${id}`);
     } catch (error) {
       console.error('Error updating device:', error);
     }
@@ -126,22 +128,22 @@ const UpdateDevice = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="ram">RAM</label>
+          <label htmlFor="ram_total_gb">RAM</label>
           <input
             type="text"
-            id="ram"
-            name="ram"
-            value={device.ram}
+            id="ram_total_gb"
+            name="ram_total_gb"
+            value={device.ram_total_gb}
             onChange={handleInputChange}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="storage">Storage</label>
+          <label htmlFor="disk_total_gb">Storage</label>
           <input
             type="text"
-            id="storage"
-            name="storage"
-            value={device.storage}
+            id="disk_total_gb"
+            name="disk_total_gb"
+            value={device.disk_total_gb}
             onChange={handleInputChange}
           />
         </div>
@@ -152,27 +154,37 @@ const UpdateDevice = () => {
               <input
                 type="radio"
                 name="status"
-                value="Active"
-                checked={device.status === "Active"}
+                value="assigned"
+                checked={device.status === "assigned"}
                 onChange={handleInputChange}
               />
-              Active
+              Assigned
             </label>
             <label>
               <input
                 type="radio"
                 name="status"
-                value="Inactive"
-                checked={device.status === "Inactive"}
+                value="repair"
+                checked={device.status === "repair"}
                 onChange={handleInputChange}
               />
-              Inactive
+              Repair
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="status"
+                value="available"
+                checked={device.status === "available"}
+                onChange={handleInputChange}
+              />
+              Available
             </label>
           </div>
         </div>
         <div className="form-actions">
           <button type="submit" className="button updateButton">Update Device</button>
-          <button type="button" className="button cancelButton" onClick={() => navigate('/devices/device-details')}>Cancel</button>
+          <button type="button" className="button cancelButton" onClick={() => navigate(`/devices/${id}`)}>Cancel</button>
         </div>
       </form>
     </div>
