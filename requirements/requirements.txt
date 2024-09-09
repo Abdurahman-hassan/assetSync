@@ -90,7 +90,7 @@ coverage==7.5.3
     # via -r requirements.in
 cron-descriptor==1.4.3
     # via -r requirements.in
-cryptography==42.0.8
+cryptography==43.0.1
     # via -r requirements.in
 decorator==5.1.1
     # via ipython
@@ -293,6 +293,8 @@ prompt-toolkit==3.0.43
     # via
     #   click-repl
     #   ipython
+psutil==6.0.0
+    # via -r requirements.in
 psycopg2==2.9.9
     # via -r requirements.in
 ptyprocess==0.7.0
@@ -492,8 +494,7 @@ zope-event==5.0
     # via gevent
 zope-interface==6.3
     # via gevent
-psutil==6.0.0
-    # via -r requirements.in
+
 # The following packages are considered to be unsafe in a requirements file:
 # pip
 # setuptools
